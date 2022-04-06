@@ -1,6 +1,6 @@
 RSpec.describe Like do
   describe 'association' do
-    specify { is_expected.to belong_to(:users)}
-    specify { is_expected.to belong_to(:tweets_liked)}
+    specify { is_expected.to belong_to(:user)}
+    specify { is_expected.to belong_to(:tweet)}
   end
 end

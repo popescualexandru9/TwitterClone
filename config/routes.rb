@@ -4,6 +4,13 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "articles#index"
 
-  resources :tweets
   resources :users
+  resources :tweets
+  
+  namespace :api do 
+    resources :users
+    resources :tweets
+    resources :likes
+    resources :friends
+  end
 end

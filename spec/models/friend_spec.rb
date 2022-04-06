@@ -1,6 +1,6 @@
 RSpec.describe Friend do
   describe 'association' do
-    specify { is_expected.to belong_to(:followers)}
-    specify { is_expected.to belong_to(:followings)}
+    specify { is_expected.to belong_to(:follower_follows)}
+    specify { is_expected.to belong_to(:following_follows)}
   end
 end

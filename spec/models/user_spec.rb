@@ -1,9 +1,7 @@
 RSpec.describe User do
   describe 'association' do
     specify { is_expected.to have_many(:tweets)}
-
     specify { is_expected.to have_many(:likes)}
-    specify { is_expected.to have_many(:tweets_liked)}
 
     specify { is_expected.to have_many(:followers)}
     specify { is_expected.to have_many(:followings)}
