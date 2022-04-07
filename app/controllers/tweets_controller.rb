@@ -1,17 +1,18 @@
-class TweetsController < ApplicationController
+# frozen_string_literal: true
 
+class TweetsController < ApplicationController
   def index
     @tweets = Tweet.all
-    
+
     output = ''
-    @tweets.each { |tweet|  output += tweet.inspect + "\n" } 
+    @tweets.each { |tweet| output += "#{tweet.inspect}\n" }
 
     render plain: output
   end
 
   def show
-    @tweet= Tweet.find(params[:id])
-    
+    @tweet = Tweet.find(params[:id])
+
     render plain: @tweet.inspect
   end
 
@@ -19,9 +20,9 @@ class TweetsController < ApplicationController
     @tweet = Tweet.new
   end
 
-  def create 
+  def create
     @tweet = Tweet.new(tweet)
-    
+
     if @tweet.save
       redirect_to tweet_path
     else
@@ -44,13 +45,14 @@ class TweetsController < ApplicationController
   end
 
   def destroy
-    @tweet= Tweet.find(params[:id])
+    @tweet = Tweet.find(params[:id])
     @tweet.destroy
-    
+
     redirect_to tweet_path
   end
-  
+
   private
+
   def tweet_params
     params.require(:tweet).permit(:content)
   end

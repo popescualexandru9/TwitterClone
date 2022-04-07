@@ -1,27 +1,28 @@
-class UsersController < ApplicationController
+# frozen_string_literal: true
 
+class UsersController < ApplicationController
   def index
     @users = User.all
-    
+
     output = ''
-    @users.each { |user|  output += user.inspect + "\n" } 
+    @users.each { |user| output += "#{user.inspect}\n" }
 
     render plain: output
   end
 
   def show
-    @user= User.find(params[:id])
-    
+    @user = User.find(params[:id])
+
     render plain: @user.inspect
   end
-  
+
   def new
-    @user = User.new(name:"a",handle: "adSsASsa", email:"asddasasdsd")
+    @user = User.new(name: 'a', handle: 'adSsASsa', email: 'asddasasdsd')
   end
 
-  def create 
+  def create
     @user = User.new(user_params)
-    
+
     if @user.save
       redirect_to user_path
     else
@@ -44,14 +45,13 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    @user= User.find(params[:id])
+    @user = User.find(params[:id])
     @user.destroy
-    
+
     redirect_to users_path
   end
 
   def user_params
     params.require(:user).permit(:name, :handle, :bio, :email)
   end
-
 end

@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 module Api
   class TweetsController < ApplicationController
     def index
-      render json: Tweet.all #,include: ''
+      render json: Tweet.all # ,include: ''
     end
 
     def show
@@ -15,7 +17,7 @@ module Api
       if @tweet.save
         render json: @tweet, status: 200
       else
-        render json: {errors: @tweet.errors.full_messages}, status: 500
+        render json: { errors: @tweet.errors.full_messages }, status: 500
       end
     end
 
@@ -25,12 +27,12 @@ module Api
       if @tweet.update(tweet_params)
         render json: @tweet, status: 200
       else
-        render json: {errors: @tweet.errors.full_messages}, status: 500
+        render json: { errors: @tweet.errors.full_messages }, status: 500
       end
     end
-    
+
     def destroy
-      @tweet= Tweet.find(params[:id])
+      @tweet = Tweet.find(params[:id])
 
       if @tweet.destroy
         render status: :ok, json: @tweet
@@ -40,6 +42,7 @@ module Api
     end
 
     private
+
     def tweet_params
       params.require(:tweet).permit(:user_id, :content)
     end

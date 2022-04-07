@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class TweetSerializer < ActiveModel::Serializer
   attributes :id, :content
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -6,11 +8,12 @@ Rails.application.routes.draw do
 
   resources :users
   resources :tweets
-  
-  namespace :api do 
+
+  namespace :api do
     resources :users
-    resources :tweets
-    resources :likes
+    resources :tweets do
+      resources :likes
+    end
     resources :friends
   end
 end

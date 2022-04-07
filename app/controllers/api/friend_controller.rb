@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 module Api
   class FriendsController < ApplicationController
     def index
-      render json: Friend.all 
+      render json: Friend.all
     end
 
     def show

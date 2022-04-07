@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api
   class UsersController < ApplicationController
     def index
@@ -8,8 +10,8 @@ module Api
       @user = User.find(params[:id])
       render json: @user
     end
-    
-    def create 
+
+    def create
       @user = User.new(user_params)
 
       if @user.save
@@ -25,12 +27,12 @@ module Api
       if @user.update(user_params)
         render json: @user, status: 200
       else
-        render json: {errors: @user.errors.full_messages}, status: 500
+        render json: { errors: @user.errors.full_messages }, status: 500
       end
     end
 
     def destroy
-      @user= User.find(params[:id])
+      @user = User.find(params[:id])
 
       if @user.destroy
         render status: :ok, json: @user

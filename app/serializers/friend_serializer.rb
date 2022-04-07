@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class FriendSerializer < ActiveModel::Serializer
   attributes :id, :follower, :following
 
