@@ -3,7 +3,7 @@
 module Api
   class TweetsController < ApplicationController
     def index
-      render json: Tweet.all # ,include: ''
+      render json: Tweet.all ,include: ''
     end
 
     def show
@@ -17,7 +17,7 @@ module Api
       if @tweet.save
         render json: @tweet, status: 200
       else
-        render json: { errors: @tweet.errors.full_messages }, status: 500
+        render json: { errors: @tweet.errors.full_messages }, status: :unprocessable_entity
       end
     end
 
@@ -27,18 +27,15 @@ module Api
       if @tweet.update(tweet_params)
         render json: @tweet, status: 200
       else
-        render json: { errors: @tweet.errors.full_messages }, status: 500
+        render json: { errors: @tweet.errors.full_messages }, status: :unprocessable_entity
       end
     end
 
     def destroy
       @tweet = Tweet.find(params[:id])
 
-      if @tweet.destroy
-        render status: :ok, json: @tweet
-      else
-        render json: @tweet.errors.full_messages, status: 500
-      end
+      @tweet.destroy
+      render status: :ok, json: @tweet 
     end
 
     private

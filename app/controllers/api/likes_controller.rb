@@ -3,18 +3,19 @@
 module Api
   class LikesController < ApplicationController
     protect_from_forgery with: :null_session
+
     def index
       render json: Like.where(tweet_id: params[:tweet_id])
     end
 
     def show
-      # rubocop -a ?
-      @user = User.where(handle: params[:id]).first
+      @user = User.find_by(handle: params[:id]) 
 
       if @user
         @like = Like.where(tweet_id: params[:tweet_id], user_id: @user.id)
         render json: @like
       else
+        #render status: :not_found
         raise ActiveRecord::RecordNotFound
       end
     end
@@ -25,17 +26,16 @@ module Api
       if @like.save
         render json: @like, status: 200
       else
-        render json: { errors: @like.errors.full_messages }, status: 500
+        render json: { errors: @like.errors.full_messages }, status: :unprocessable_entity
       end
     end
 
     def destroy
       @like = Like.find(params[:id])
-      if @like.destroy
-        render status: :ok, json: @tweet
-      else
-        render json: @like.errors.full_messages, status: 500
-      end
+      @like.destroy
+      render status: :ok, json: @tweet
+      # else
+      #   render json: @like.errors.full_messages, status: 500
     end
 
     private
