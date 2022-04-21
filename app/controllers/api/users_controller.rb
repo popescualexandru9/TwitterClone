@@ -38,7 +38,7 @@ module Api
       render status: :ok, json: @user if @user.destroy
     end
 
-    private 
+    private
 
     def user_params
       params.require(:user).permit(:name, :handle, :bio, :email)

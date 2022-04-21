@@ -9,13 +9,13 @@ module Api
     end
 
     def show
-      @user = User.find_by(handle: params[:id]) 
+      @user = User.find_by(handle: params[:id])
 
       if @user
         @like = Like.where(tweet_id: params[:tweet_id], user_id: @user.id)
         render json: @like
       else
-        #render status: :not_found
+        # render status: :not_found
         raise ActiveRecord::RecordNotFound
       end
     end

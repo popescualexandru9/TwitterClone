@@ -18,8 +18,8 @@ RSpec.describe 'API Tweets', type: :request do
     context 'when collection is not empty' do
       it 'contains what it should be' do
         Tweet.create(user_id: user.id, content: 'tweetcontent')
-        
-        expect(subject.first).to include( "content" => "tweetcontent")
+
+        expect(subject.first).to include('content' => 'tweetcontent')
       end
     end
   end
@@ -31,13 +31,13 @@ RSpec.describe 'API Tweets', type: :request do
       it 'returns tweet' do
         get "/api/tweets/#{tweet.id}"
         expect(response.body.length).not_to be_nil
-        expect( JSON.parse(response.body)).to include({"content"=> "tweetcontent"}) 
+        expect(JSON.parse(response.body)).to include({ 'content' => 'tweetcontent' })
       end
     end
 
     context 'when tweet is not present' do
       it 'return empty collection' do
-        expect { get "/api/tweets/#{User.count+1}" }.to raise_error(ActiveRecord::RecordNotFound)
+        expect { get "/api/tweets/#{User.count + 1}" }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
   end
@@ -53,13 +53,13 @@ RSpec.describe 'API Tweets', type: :request do
 
       specify { expect(subject).to have_http_status(200) }
       specify { expect { JSON.parse(subject.body) }.to change(Tweet, :count).by(1) }
-      specify { expect( JSON.parse(subject.body)).to include({"content"=> "tweetcontent"}) }
+      specify { expect(JSON.parse(subject.body)).to include({ 'content' => 'tweetcontent' }) }
     end
 
     context 'when tweet is not created' do
       context 'when the user is non-existent' do
         subject do
-          post '/api/tweets', params: { tweet: { user_id: User.count+1, content: 'tweetcontent' } }
+          post '/api/tweets', params: { tweet: { user_id: User.count + 1, content: 'tweetcontent' } }
           JSON.parse(response.body)
         end
 
@@ -79,7 +79,7 @@ RSpec.describe 'API Tweets', type: :request do
 
       specify { expect(subject).to have_http_status(200) }
       specify { expect(JSON.parse(subject.body)['content']).to eq('tweetcontentupdated') }
-      specify { expect{ subject }.to change{tweet.reload.content}.from('tweetcontent').to('tweetcontentupdated') }
+      specify { expect { subject }.to change { tweet.reload.content }.from('tweetcontent').to('tweetcontentupdated') }
     end
 
     context 'when tweet is not updated' do
@@ -100,7 +100,7 @@ RSpec.describe 'API Tweets', type: :request do
     end
 
     context 'when tweet is not present' do
-      specify { expect { delete "/api/tweets/#{User.count+1}" }.to raise_error(ActiveRecord::RecordNotFound) }
+      specify { expect { delete "/api/tweets/#{User.count + 1}" }.to raise_error(ActiveRecord::RecordNotFound) }
     end
   end
 end

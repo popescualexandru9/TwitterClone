@@ -15,7 +15,7 @@ RSpec.describe Tweet do
     end
   end
 
-  describe "scopes" do
+  describe 'scopes' do
     let(:user_1) { User.create(name: 'Alex', handle: 'alexhandle', email: 'alex@email.com', bio: '') }
     let(:user_2) { User.create(name: 'Andrei', handle: 'andreihandle', email: 'andrei@email.com', bio: '') }
     let(:tweet_1) { Tweet.create(user_id: user_1.id, content: 'tweet1content') }
@@ -25,13 +25,12 @@ RSpec.describe Tweet do
 
     context '.by_likes' do
       subject { Tweet.by_likes }
-      specify { is_expected.to contain_exactly(tweet_1)}
-    end 
+      specify { is_expected.to contain_exactly(tweet_1) }
+    end
 
     context '.by_user_id' do
-      subject { Tweet.by_user_id(user_id: user_2.id)}
-      specify { is_expected.to contain_exactly(tweet_2)}
+      subject { Tweet.by_user_id(user_id: user_2.id) }
+      specify { is_expected.to contain_exactly(tweet_2) }
     end
   end
-
 end

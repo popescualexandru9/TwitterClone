@@ -3,7 +3,7 @@
 module Api
   class TweetsController < ApplicationController
     def index
-      render json: Tweet.all ,include: ''
+      render json: Tweet.all, include: ''
     end
 
     def show
@@ -35,7 +35,7 @@ module Api
       @tweet = Tweet.find(params[:id])
 
       @tweet.destroy
-      render status: :ok, json: @tweet 
+      render status: :ok, json: @tweet
     end
 
     private

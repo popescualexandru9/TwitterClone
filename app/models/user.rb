@@ -17,6 +17,6 @@ class User < ApplicationRecord
   validates :name, presence: true
   validates :handle, :email, presence: true, length: { minimum: 5 }
 
-  scope :tweet_likes, ->(tweet_id: 1) { joins(:likes).group("likes.user_id").where(tweet_id: tweet_id)}
-  scope :by_handle, ->(handle: 'a%') { where("handle like ?", handle)}
+  scope :tweet_likes, ->(tweet_id: 1) { joins(:likes).group('likes.user_id').where(tweet_id:) }
+  scope :by_handle, ->(handle: 'a%') { where('handle like ?', handle) }
 end

@@ -19,7 +19,7 @@ RSpec.describe 'API Likes', type: :request do
     context 'when collection is not empty' do
       it 'contains what it should be' do
         Like.create(user_id: user.id, tweet_id: tweet.id)
-        expect(subject.first).to include( "tweet" => JSON.parse(tweet.to_json), "user" => JSON.parse(user.to_json))
+        expect(subject.first).to include('tweet' => JSON.parse(tweet.to_json), 'user' => JSON.parse(user.to_json))
       end
     end
   end
@@ -51,13 +51,16 @@ RSpec.describe 'API Likes', type: :request do
 
       specify { expect(subject).to have_http_status(200) }
       specify { expect { JSON.parse(subject.body) }.to change(Like, :count).by(1) }
-      specify { expect( JSON.parse(subject.body)).to include( "tweet" => JSON.parse(tweet.to_json), "user" => JSON.parse(user.to_json))}
+      specify do
+        expect(JSON.parse(subject.body)).to include('tweet' => JSON.parse(tweet.to_json),
+                                                    'user' => JSON.parse(user.to_json))
+      end
     end
 
     context 'when like is not created' do
       context 'when the user is non-existent' do
         subject do
-          post "/api/tweets/#{tweet.id}/likes", params: { like: { user_id: User.count+1 } }
+          post "/api/tweets/#{tweet.id}/likes", params: { like: { user_id: User.count + 1 } }
           JSON.parse(response.body)
         end
 
@@ -76,7 +79,7 @@ RSpec.describe 'API Likes', type: :request do
     context 'when like is non-existent' do
       specify do
         expect do
-          delete "/api/tweets/#{tweet.id}/likes/#{User.count+1}"
+          delete "/api/tweets/#{tweet.id}/likes/#{User.count + 1}"
         end.to raise_error(ActiveRecord::RecordNotFound)
       end
     end

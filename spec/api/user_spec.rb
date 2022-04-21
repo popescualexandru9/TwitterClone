@@ -19,7 +19,8 @@ RSpec.describe 'API Users', type: :request do
       end
 
       it 'contains what it should be' do
-        expect(subject.first).to include("name"=> "Alex", "handle"=>"alexhandle", "email"=> "alex@gmail.com", "bio"=> nil)
+        expect(subject.first).to include('name' => 'Alex', 'handle' => 'alexhandle', 'email' => 'alex@gmail.com',
+                                         'bio' => nil)
       end
     end
   end
@@ -31,14 +32,15 @@ RSpec.describe 'API Users', type: :request do
       it 'returns user' do
         get "/api/users/#{user.id}"
         expect(response.body.length).not_to be_nil
-        expect( JSON.parse(response.body)).to include({"name"=> "Alex", "handle"=>"alexhandle", "email"=> "alex@email.com", "bio"=> nil}) 
+        expect(JSON.parse(response.body)).to include({ 'name' => 'Alex', 'handle' => 'alexhandle',
+                                                       'email' => 'alex@email.com', 'bio' => nil })
       end
     end
 
     context 'when user is not present' do
       it 'return empty collection' do
-        #expect(response.status).to eq(404)  
-        expect { get "/api/users/#{User.count+1}" }.to raise_error(ActiveRecord::RecordNotFound)
+        # expect(response.status).to eq(404)
+        expect { get "/api/users/#{User.count + 1}" }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
   end
@@ -54,7 +56,10 @@ RSpec.describe 'API Users', type: :request do
 
       specify { expect(subject).to have_http_status(200) }
       specify { expect { JSON.parse(subject.body) }.to change(User, :count).by(1) }
-      specify { expect( JSON.parse(subject.body)).to include({"name"=> "Alex", "handle"=>"alexhandle", "email"=> "alex@gmail.com", "bio"=> "alexbio"}) }
+      specify do
+        expect(JSON.parse(subject.body)).to include({ 'name' => 'Alex', 'handle' => 'alexhandle', 'email' => 'alex@gmail.com',
+                                                      'bio' => 'alexbio' })
+      end
     end
 
     context 'when user is not created' do
@@ -113,12 +118,12 @@ RSpec.describe 'API Users', type: :request do
 
       specify { expect(subject).to have_http_status(200) }
       specify { expect(JSON.parse(subject.body)['name']).to eq('Alexandru') }
-      specify { expect{ subject }.to change{user.reload.name}.from('Alex').to('Alexandru') }
-      #{} reloads the block
+      specify { expect { subject }.to change { user.reload.name }.from('Alex').to('Alexandru') }
+      # {} reloads the block
     end
 
     # Same cases as for #create
-    #check for non-existent user
+    # check for non-existent user
     context 'when user is not updated' do
       subject do
         patch "/api/users/#{user.id}", params: { user: { name: '' } }
@@ -137,7 +142,7 @@ RSpec.describe 'API Users', type: :request do
     end
 
     context 'when user is not present' do
-      specify { expect { delete "/api/users/#{User.count+1}" }.to raise_error(ActiveRecord::RecordNotFound) }
+      specify { expect { delete "/api/users/#{User.count + 1}" }.to raise_error(ActiveRecord::RecordNotFound) }
     end
   end
 end
