@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   resources :users
   resources :tweets
 
-  post "/graphql", to: "graphql#index"
+  post '/graphql', to: 'graphql#index'
 
   namespace :api do
     resources :users

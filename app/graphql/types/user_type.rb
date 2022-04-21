@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Types
   class UserType < GraphQL::Schema::Object
     field :id, ID, null: false

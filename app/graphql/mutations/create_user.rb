@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Mutations
   class CreateUser < GraphQL::Schema::Mutation
     field :success, Boolean, null: false
@@ -10,7 +12,7 @@ module Mutations
       user = User.new(args[:user_input].to_h)
       success = user.save
       {
-        success: success,
+        success:,
         errors: user.errors.full_messages,
         user: success ? user : nil
       }

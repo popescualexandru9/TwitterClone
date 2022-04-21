@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Inputs
   class UserInput < GraphQL::Schema::InputObject
     argument :name, String, required: true
