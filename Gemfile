@@ -55,7 +55,7 @@ group :development, :test do
   gem 'debug', platforms: %i[mri mingw x64_mingw]
 end
 
-gem 'graphql'
+
 gem 'rubocop', require: false
 gem 'simplecov', require: false, group: :test
 
@@ -63,7 +63,8 @@ group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem 'rspec-rails'
   gem 'web-console'
-
+  gem 'graphql'
+  gem "graphiql-rails"
   # Add speed badges [https://github.com/MiniProfiler/rack-mini-profiler]
   # gem "rack-mini-profiler"
 
