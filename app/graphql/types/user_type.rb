@@ -7,5 +7,7 @@ module Types
     field :handle, String, null: false
     field :bio, String, null: true
     field :email, String, null: false
+    field :followers, [Types::UserType], null: true
+    field :followings, [Types::UserType], null: true
   end
 end
