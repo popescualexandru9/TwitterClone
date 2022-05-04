@@ -57,11 +57,13 @@ end
 
 gem 'rubocop', require: false
 gem 'simplecov', require: false, group: :test
+gem 'graphql'
+gem 'jwt'
 
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem 'graphiql-rails'
-  gem 'graphql'
+
   gem 'rspec-rails'
   gem 'web-console'
   # Add speed badges [https://github.com/MiniProfiler/rack-mini-profiler]
@@ -74,8 +76,9 @@ end
 group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem 'capybara'
-  gem 'graphql'
   gem 'selenium-webdriver'
   gem 'shoulda-matchers'
   gem 'webdrivers'
 end
+
+gem "bcrypt", "~> 3.1.7"
