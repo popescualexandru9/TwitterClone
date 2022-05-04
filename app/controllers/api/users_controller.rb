@@ -2,7 +2,8 @@
 
 module Api
   class UsersController < ApplicationController
-    protect_from_forgery with: :null_session
+    before_action :authorize_request, except: :create
+
     def index
       render json: User.all
     end
@@ -39,7 +40,6 @@ module Api
     end
 
     private
-
     def user_params
       params.require(:user).permit(:name, :handle, :bio, :email)
     end

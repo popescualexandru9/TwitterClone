@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
+  has_secure_password
   alias_attribute :tweets_liked, :likes
 
   has_many :tweets
@@ -19,4 +20,8 @@ class User < ApplicationRecord
 
   scope :tweet_likes, ->(tweet_id: 1) { joins(:likes).group('likes.user_id').where(tweet_id:) }
   scope :by_handle, ->(handle: 'a%') { where('handle like ?', handle) }
+
+  validates :password,
+          length: { minimum: 6 },
+          if: -> { new_record? || !password.nil? }
 end

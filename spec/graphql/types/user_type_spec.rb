@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe Types::UserType do
-  subject { TweetCloneSchema.execute(query, variables:) }
+  subject { TweetCloneSchema.execute(query, variables: variables) }
 
   let(:query) { <<~GRAPHQL }
     query($id: ID!) {
@@ -10,7 +10,7 @@ RSpec.describe Types::UserType do
         name
         handle
       }
-    }#{'    '}
+    }
   GRAPHQL
   let(:variables) { { id: user.id } }
 

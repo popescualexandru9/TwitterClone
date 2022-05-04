@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   namespace :api do
     resources :users
     resources :tweets do
+      get :my, on: :collection # /api/tweets/my
       resources :likes
     end
     resources :friends
