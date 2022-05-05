@@ -2,7 +2,6 @@
 
 module Api
   class LikesController < ApplicationController
-    protect_from_forgery with: :null_session
 
     def index
       render json: Like.where(tweet_id: params[:tweet_id])

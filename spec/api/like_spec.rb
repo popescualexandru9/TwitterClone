@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 RSpec.describe 'API Likes', type: :request do
-  let(:user) { User.create(name: 'Alex', email: 'alex@gmail.com', handle: 'alexhandle') }
-  let(:tweet) { Tweet.create(user_id: user.id, content: 'tweet_content') }
+  let(:user) { User.create(name: 'Alex', email: 'alex@gmail.com', handle: 'alexhandle', password: '123456', password_digest: '123456') }
+  let!(:tweet) { Tweet.create(user_id: user.id, content: 'tweet_content') }
 
   describe '#index likes of tweet' do
     subject do

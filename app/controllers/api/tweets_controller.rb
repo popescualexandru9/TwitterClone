@@ -2,6 +2,12 @@
 
 module Api
   class TweetsController < ApplicationController
+    before_action :authorize_request
+    
+    def my
+      render json: @current_user.tweets
+    end
+
     def index
       render json: Tweet.all, include: ''
     end
@@ -12,7 +18,7 @@ module Api
     end
 
     def create
-      @tweet = Tweet.new(tweet_params)
+      @tweet = Tweet.new(tweet_params.merge(user_id: @current_user.id))
 
       if @tweet.save
         render json: @tweet, status: 200
@@ -41,7 +47,7 @@ module Api
     private
 
     def tweet_params
-      params.require(:tweet).permit(:user_id, :content)
+      params.require(:tweet).permit(:content)
     end
   end
 end

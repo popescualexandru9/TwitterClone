@@ -14,7 +14,7 @@ RSpec.describe Types::UserType do
   GRAPHQL
   let(:variables) { { id: user.id } }
 
-  let(:user) { User.create(name: 'user', handle: 'userHandle', email: 'email@yahoo.com') }
+  let(:user) { User.create(name: 'user', handle: 'userHandle', email: 'email@yahoo.com', password: "123456", password_confirmation: "123456") }
 
   specify do
     expect(subject).to eq(
