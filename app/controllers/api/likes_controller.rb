@@ -2,7 +2,6 @@
 
 module Api
   class LikesController < ApplicationController
-
     def index
       render json: Like.where(tweet_id: params[:tweet_id])
     end

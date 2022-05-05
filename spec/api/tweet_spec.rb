@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 
 RSpec.describe 'API Tweets', type: :request do
-  let(:user) { User.create(name: 'Alex', handle: 'alexhandle', email: 'alex@email.com', bio: '',password: '123456', password_confirmation: '123456') }
+  let(:user) do
+    User.create(name: 'Alex', handle: 'alexhandle', email: 'alex@email.com', bio: '', password: '123456',
+                password_confirmation: '123456')
+  end
 
   describe '#index tweets' do
     context 'when user is authorized' do
@@ -30,7 +33,7 @@ RSpec.describe 'API Tweets', type: :request do
         get '/api/tweets#index'
         JSON.parse(response.body)
       end
-      specify { expect(subject).to include("errors"=> "Nil JSON web token")}
+      specify { expect(subject).to include('errors' => 'Nil JSON web token') }
     end
   end
 
@@ -49,9 +52,10 @@ RSpec.describe 'API Tweets', type: :request do
 
       context 'when tweet is not present' do
         it 'return empty collection' do
-          expect { get "/api/tweets/#{User.count + 1}", 
-                      headers: { "Authorization": JsonWebToken.encode(user_id: user.id) }
-                 }.to raise_error(ActiveRecord::RecordNotFound)
+          expect do
+            get "/api/tweets/#{User.count + 1}",
+                headers: { "Authorization": JsonWebToken.encode(user_id: user.id) }
+          end.to raise_error(ActiveRecord::RecordNotFound)
         end
       end
     end
@@ -61,7 +65,7 @@ RSpec.describe 'API Tweets', type: :request do
         get "/api/tweets/#{tweet.id}"
         JSON.parse(response.body)
       end
-      specify { expect(subject).to include("errors"=> "Nil JSON web token")}
+      specify { expect(subject).to include('errors' => 'Nil JSON web token') }
     end
   end
 
@@ -70,7 +74,7 @@ RSpec.describe 'API Tweets', type: :request do
     context 'when user is authorized' do
       context 'when tweet is created' do
         subject do
-          post '/api/tweets', params: params,  
+          post '/api/tweets', params: params,
                               headers: { "Authorization": JsonWebToken.encode(user_id: user.id) }
           response
         end
@@ -83,7 +87,7 @@ RSpec.describe 'API Tweets', type: :request do
       context 'when tweet is not created' do
         context 'when the content is non-existent' do
           subject do
-            post '/api/tweets', params: { tweet: { user_id: user.id, content: '' } },  
+            post '/api/tweets', params: { tweet: { user_id: user.id, content: '' } },
                                 headers: { "Authorization": JsonWebToken.encode(user_id: user.id) }
             JSON.parse(response.body)
           end
@@ -98,7 +102,7 @@ RSpec.describe 'API Tweets', type: :request do
         post '/api/tweets', params: params
         JSON.parse(response.body)
       end
-      specify { expect(subject).to include("errors"=> "Nil JSON web token")}
+      specify { expect(subject).to include('errors' => 'Nil JSON web token') }
     end
   end
 
@@ -108,7 +112,7 @@ RSpec.describe 'API Tweets', type: :request do
       context 'when tweet is updated' do
         subject do
           patch "/api/tweets/#{tweet.id}", params: { tweet: { content: 'tweetcontentupdated' } },
-                                           headers: { "Authorization": JsonWebToken.encode(user_id: user.id)}
+                                           headers: { "Authorization": JsonWebToken.encode(user_id: user.id) }
 
           response
         end
@@ -121,7 +125,7 @@ RSpec.describe 'API Tweets', type: :request do
       context 'when tweet is not updated' do
         subject do
           patch "/api/tweets/#{user.id}", params: { tweet: { content: '' } },
-                                          headers: { "Authorization": JsonWebToken.encode(user_id: user.id)}
+                                          headers: { "Authorization": JsonWebToken.encode(user_id: user.id) }
           JSON.parse(response.body)
         end
 
@@ -131,10 +135,10 @@ RSpec.describe 'API Tweets', type: :request do
 
     context 'when user is not authorized' do
       subject do
-        patch "/api/tweets/#{tweet.id}", params: { tweet: { content: 'some content' }}
+        patch "/api/tweets/#{tweet.id}", params: { tweet: { content: 'some content' } }
         JSON.parse(response.body)
       end
-      specify { expect(subject).to include("errors"=> "Nil JSON web token")}
+      specify { expect(subject).to include('errors' => 'Nil JSON web token') }
     end
   end
 
@@ -142,15 +146,19 @@ RSpec.describe 'API Tweets', type: :request do
     let(:tweet) { Tweet.create(user_id: user.id, content: 'tweetcontent') }
     context 'when user is authorized' do
       context 'when tweet is present' do
-        specify { expect(delete("/api/tweets/#{tweet.id}", 
-                                headers: { "Authorization": JsonWebToken.encode(user_id: user.id) })
-                        ).to eq(200) }
+        specify do
+          expect(delete("/api/tweets/#{tweet.id}",
+                        headers: { "Authorization": JsonWebToken.encode(user_id: user.id) })).to eq(200)
+        end
       end
 
       context 'when tweet is not present' do
-        specify { expect { delete "/api/tweets/#{User.count + 1}",
-                                  headers: { "Authorization": JsonWebToken.encode(user_id: user.id) } 
-                         }.to raise_error(ActiveRecord::RecordNotFound) }
+        specify do
+          expect do
+            delete "/api/tweets/#{User.count + 1}",
+                   headers: { "Authorization": JsonWebToken.encode(user_id: user.id) }
+          end.to raise_error(ActiveRecord::RecordNotFound)
+        end
       end
     end
 
@@ -159,30 +167,29 @@ RSpec.describe 'API Tweets', type: :request do
         delete "/api/tweets/#{tweet.id}"
         JSON.parse(response.body)
       end
-      specify { expect(subject).to include("errors"=> "Nil JSON web token")}
+      specify { expect(subject).to include('errors' => 'Nil JSON web token') }
     end
   end
 
   describe 'my method' do
-    let!(:tweet) { Tweet.create(user_id: user.id,content: 'tweetcontent') }
+    let!(:tweet) { Tweet.create(user_id: user.id, content: 'tweetcontent') }
     context 'when user is authorized' do
       subject do
-        get "/api/tweets/my", headers: {"Authorization": JsonWebToken.encode(user_id: user.id) }
+        get '/api/tweets/my', headers: { "Authorization": JsonWebToken.encode(user_id: user.id) }
         JSON.parse(response.body)
       end
 
       context 'current user is not the same user passed here' do
-        specify { expect(subject).to match([hash_including('id' => tweet.id)])}
+        specify { expect(subject).to match([hash_including('id' => tweet.id)]) }
       end
     end
 
     context 'when user is not authorized' do
       subject do
-        get "/api/tweets/my"
+        get '/api/tweets/my'
         JSON.parse(response.body)
       end
-      specify { expect(subject).to include("errors"=> "Nil JSON web token")}
+      specify { expect(subject).to include('errors' => 'Nil JSON web token') }
     end
   end
-
 end

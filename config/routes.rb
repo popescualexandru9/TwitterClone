@@ -1,15 +1,11 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-
-  # Defines the root path route ("/")
-  # root "articles#index"
-
   resources :users
   resources :tweets
 
   post '/graphql', to: 'graphql#index'
+  post '/auth/login', to: 'authentication#login'
 
   namespace :api do
     resources :users

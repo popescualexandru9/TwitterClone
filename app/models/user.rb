@@ -22,6 +22,6 @@ class User < ApplicationRecord
   scope :by_handle, ->(handle: 'a%') { where('handle like ?', handle) }
 
   validates :password,
-          length: { minimum: 6 },
-          if: -> { new_record? || !password.nil? }
+            length: { minimum: 6 },
+            if: -> { new_record? || !password.nil? }
 end

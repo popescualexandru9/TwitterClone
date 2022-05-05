@@ -16,8 +16,14 @@ RSpec.describe Tweet do
   end
 
   describe 'scopes' do
-    let(:user_1) { User.create(name: 'Alex', handle: 'alexhandle', email: 'alex@email.com', bio: '', password: "123456", password_confirmation: "123456") }
-    let(:user_2) { User.create(name: 'Andrei', handle: 'andreihandle', email: 'andrei@email.com', bio: '', password: "123456", password_confirmation: "123456") }
+    let(:user_1) do
+      User.create(name: 'Alex', handle: 'alexhandle', email: 'alex@email.com', bio: '', password: '123456',
+                  password_confirmation: '123456')
+    end
+    let(:user_2) do
+      User.create(name: 'Andrei', handle: 'andreihandle', email: 'andrei@email.com', bio: '', password: '123456',
+                  password_confirmation: '123456')
+    end
     let(:tweet_1) { Tweet.create(user_id: user_1.id, content: 'tweet1content') }
     let(:tweet_2) { Tweet.create(user_id: user_2.id, content: 'tweet2content') }
     let!(:like_1) { Like.create(user_id: user_1.id, tweet_id: tweet_1.id) }

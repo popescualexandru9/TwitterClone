@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe Types::UserType do
-  subject { TweetCloneSchema.execute(query, variables: variables) }
+  subject { TweetCloneSchema.execute(query, variables:) }
 
   let(:query) { <<~GRAPHQL }
     query($id: ID!) {
@@ -14,7 +14,10 @@ RSpec.describe Types::UserType do
   GRAPHQL
   let(:variables) { { id: user.id } }
 
-  let(:user) { User.create(name: 'user', handle: 'userHandle', email: 'email@yahoo.com', password: "123456", password_confirmation: "123456") }
+  let(:user) do
+    User.create(name: 'user', handle: 'userHandle', email: 'email@yahoo.com', password: '123456',
+                password_confirmation: '123456')
+  end
 
   specify do
     expect(subject).to eq(

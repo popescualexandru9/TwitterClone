@@ -7,40 +7,52 @@ RSpec.describe 'API Users', type: :request do
         get '/api/users#index'
         JSON.parse(response.body)
       end
-      specify { expect(subject).to include("errors"=> "Nil JSON web token")}
+      specify { expect(subject).to include('errors' => 'Nil JSON web token') }
     end
 
     context '#show' do
-      let(:user) { User.create(name: 'Alex', handle: 'alexhandle', email: 'alex@email.com', bio: '',password: '123456', password_confirmation: '123456') }
+      let(:user) do
+        User.create(name: 'Alex', handle: 'alexhandle', email: 'alex@email.com', bio: '', password: '123456',
+                    password_confirmation: '123456')
+      end
       subject do
         get "/api/users/#{user.id}"
         JSON.parse(response.body)
       end
-      specify { expect(subject).to include("errors"=> "Nil JSON web token")}
+      specify { expect(subject).to include('errors' => 'Nil JSON web token') }
     end
 
     context '#update' do
-      let(:user) { User.create(name: 'Alex', handle: 'alexhandle', email: 'alex@email.com', bio: '',password: '123456', password_confirmation: '123456') }
+      let(:user) do
+        User.create(name: 'Alex', handle: 'alexhandle', email: 'alex@email.com', bio: '', password: '123456',
+                    password_confirmation: '123456')
+      end
       subject do
         get "/api/users/#{user.id}", params: { user: { name: 'Alexandru' } }
         JSON.parse(response.body)
       end
-      specify { expect(subject).to include("errors"=> "Nil JSON web token")}
+      specify { expect(subject).to include('errors' => 'Nil JSON web token') }
     end
 
     context '#destroy' do
-      let(:user) { User.create(name: 'Alex', handle: 'alexhandle', email: 'alex@email.com', bio: '',password: '123456', password_confirmation: '123456') }
+      let(:user) do
+        User.create(name: 'Alex', handle: 'alexhandle', email: 'alex@email.com', bio: '', password: '123456',
+                    password_confirmation: '123456')
+      end
       subject do
         delete "/api/users/#{user.id}"
         JSON.parse(response.body)
       end
-      specify { expect(subject).to include("errors"=> "Nil JSON web token")}
+      specify { expect(subject).to include('errors' => 'Nil JSON web token') }
     end
   end
 
   context 'when user is authorized' do
-    let!(:user) { User.create(name: 'Alex', handle: 'alexhandle', email: 'alex@gmail.com', password: '123456', password_confirmation: '123456') }
-    
+    let!(:user) do
+      User.create(name: 'Alex', handle: 'alexhandle', email: 'alex@gmail.com', password: '123456',
+                  password_confirmation: '123456')
+    end
+
     describe '#index users' do
       subject do
         get '/api/users', headers: { "Authorization": JsonWebToken.encode(user_id: user.id) }
@@ -48,9 +60,11 @@ RSpec.describe 'API Users', type: :request do
       end
 
       context 'when collection is not empty' do
-          specify {expect(subject.first).to include('name' => 'Alex', 'handle' => 'alexhandle', 'email' => 'alex@gmail.com',
-                                          'bio' => nil)}
+        specify do
+          expect(subject.first).to include('name' => 'Alex', 'handle' => 'alexhandle', 'email' => 'alex@gmail.com',
+                                           'bio' => nil)
         end
+      end
     end
 
     describe '#show user' do
@@ -59,23 +73,27 @@ RSpec.describe 'API Users', type: :request do
           get "/api/users/#{user.id}", headers: { "Authorization": JsonWebToken.encode(user_id: user.id) }
           expect(response.body.length).not_to be_nil
           expect(JSON.parse(response.body)).to include({ 'name' => 'Alex', 'handle' => 'alexhandle',
-                                                        'email' => 'alex@gmail.com', 'bio' => nil })
+                                                         'email' => 'alex@gmail.com', 'bio' => nil })
         end
       end
 
       context 'when user is not present' do
         it 'return empty collection' do
           # expect(response.status).to eq(404)
-          expect { get "/api/users/#{User.count + 1}",
-                        headers: { "Authorization": JsonWebToken.encode(user_id: user.id) }
-                 }.to raise_error(ActiveRecord::RecordNotFound)
+          expect do
+            get "/api/users/#{User.count + 1}",
+                headers: { "Authorization": JsonWebToken.encode(user_id: user.id) }
+          end.to raise_error(ActiveRecord::RecordNotFound)
         end
       end
     end
 
     describe '#create user' do
       context 'when user is created' do
-        let(:params) { { user: { name: 'Alex', handle: 'alexhandle', email: 'alex@gmail.com', bio: 'alexbio', password: '123456', password_confirmation: '123456'} } }
+        let(:params) do
+          { user: { name: 'Alex', handle: 'alexhandle', email: 'alex@gmail.com', bio: 'alexbio', password: '123456',
+                    password_confirmation: '123456' } }
+        end
 
         subject do
           post '/api/users', params: params
@@ -119,7 +137,7 @@ RSpec.describe 'API Users', type: :request do
         context 'when the handle is too short' do
           subject do
             post '/api/users',
-                params: { user: { name: 'Alex', handle: 'hand', email: 'alex@gmail.com', bio: 'alexbio' } }
+                 params: { user: { name: 'Alex', handle: 'hand', email: 'alex@gmail.com', bio: 'alexbio' } }
             JSON.parse(response.body)
           end
           specify { expect(subject).to include('Handle is too short (minimum is 5 characters)') }
@@ -139,7 +157,7 @@ RSpec.describe 'API Users', type: :request do
       context 'when user is updated' do
         subject do
           patch "/api/users/#{user.id}", params: { user: { name: 'Alexandru' } },
-                headers: { "Authorization": JsonWebToken.encode(user_id: user.id)}
+                                         headers: { "Authorization": JsonWebToken.encode(user_id: user.id) }
           response
         end
 
@@ -154,7 +172,7 @@ RSpec.describe 'API Users', type: :request do
       context 'when user is not updated' do
         subject do
           patch "/api/users/#{user.id}", params: { user: { name: '' } },
-                headers: { "Authorization": JsonWebToken.encode(user_id: user.id)}
+                                         headers: { "Authorization": JsonWebToken.encode(user_id: user.id) }
           JSON.parse(response.body)
         end
 
@@ -164,13 +182,19 @@ RSpec.describe 'API Users', type: :request do
 
     describe '#destroy user' do
       context 'when user is present' do
-        specify { expect(delete("/api/users/#{user.id}", 
-                  headers: { "Authorization": JsonWebToken.encode(user_id: user.id) } )).to eq(200) }
+        specify do
+          expect(delete("/api/users/#{user.id}",
+                        headers: { "Authorization": JsonWebToken.encode(user_id: user.id) })).to eq(200)
+        end
       end
 
       context 'when user is not present' do
-        specify { expect { delete "/api/users/#{User.count + 1}", headers: { "Authorization": JsonWebToken.encode(user_id: user.id)} 
-                }.to raise_error(ActiveRecord::RecordNotFound) }
+        specify do
+          expect do
+            delete "/api/users/#{User.count + 1}",
+                   headers: { "Authorization": JsonWebToken.encode(user_id: user.id) }
+          end.to raise_error(ActiveRecord::RecordNotFound)
+        end
       end
     end
   end

@@ -55,10 +55,10 @@ group :development, :test do
   gem 'debug', platforms: %i[mri mingw x64_mingw]
 end
 
-gem 'rubocop', require: false
-gem 'simplecov', require: false, group: :test
 gem 'graphql'
 gem 'jwt'
+gem 'rubocop', require: false
+gem 'simplecov', require: false, group: :test
 
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
@@ -81,4 +81,4 @@ group :test do
   gem 'webdrivers'
 end
 
-gem "bcrypt", "~> 3.1.7"
+gem 'bcrypt', '~> 3.1.7'

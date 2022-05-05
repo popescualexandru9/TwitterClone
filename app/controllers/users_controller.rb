@@ -1,10 +1,8 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
-  #http_basic_authenticate_with name: "alex", password: "pwds", only: :show
-  #before_action :authorize_request, except: :create
-  #before_action :find_user, except: %i[create index]
-  
+  # http_basic_authenticate_with name: "alex", password: "pwds", only: :show
+
   def index
     @users = User.all
 
@@ -56,12 +54,6 @@ class UsersController < ApplicationController
   end
 
   private
-
-  # def find_user
-  #   @user = User.find(params[:id])
-  #   rescue ActiveRecord::RecordNotFound
-  #     render json: { errors: 'User not found' }, status: :not_found
-  # end
 
   def user_params
     params.require(:user).permit(:name, :handle, :bio, :email, :password_digest)

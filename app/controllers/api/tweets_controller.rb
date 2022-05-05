@@ -3,7 +3,7 @@
 module Api
   class TweetsController < ApplicationController
     before_action :authorize_request
-    
+
     def my
       render json: @current_user.tweets
     end
