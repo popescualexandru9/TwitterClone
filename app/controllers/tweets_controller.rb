@@ -1,13 +1,14 @@
 # frozen_string_literal: true
 
 class TweetsController < ApplicationController
+  before_action :authorize_user
+
   def index
     @tweets = Tweet.all
 
     output = ''
     @tweets.each { |tweet| output += "#{tweet.inspect}\n" }
 
-    render plain: output
   end
 
   def show

@@ -8,12 +8,17 @@ module Types
     end
 
     field :tweets, [Types::TweetType]
+    field :current_user_tweets, [Types::TweetType]
     field :tweet, Types::TweetType do
       argument :id, ID, required: true
     end
 
     def users
       User.all
+    end
+
+    def current_user_tweets
+      context.current_user.tweets
     end
 
     def tweets

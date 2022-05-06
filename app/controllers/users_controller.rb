@@ -2,6 +2,7 @@
 
 class UsersController < ApplicationController
   # http_basic_authenticate_with name: "alex", password: "pwds", only: :show
+  before_action :authorize_user
 
   def index
     @users = User.all
@@ -19,7 +20,7 @@ class UsersController < ApplicationController
   end
 
   def new
-    @user = User.new(name: 'a', handle: 'adSsASsa', email: 'asddasasdsd')
+    @user = User.new(name: '', handle: '', email: '')
   end
 
   def create
