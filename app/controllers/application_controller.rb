@@ -2,9 +2,8 @@
 
 class ApplicationController < ActionController::Base
   include SessionsHelper
-  
-  def index
-  end
+
+  def index; end
 
   def authorize_request
     header = request.headers['Authorization']
@@ -21,8 +20,8 @@ class ApplicationController < ActionController::Base
 
   def authorize_user
     unless logged_in?
-      session[:intended_url] = request.url  
-      redirect_to login_url, alert: "Please log in first!"
+      session[:intended_url] = request.url
+      redirect_to login_url, alert: 'Please log in first!'
     end
   end
 end

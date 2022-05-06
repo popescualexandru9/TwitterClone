@@ -83,4 +83,4 @@ end
 
 gem 'bcrypt', '~> 3.1.7'
 
-gem "devise", "~> 4.8"
+gem 'devise', '~> 4.8'

@@ -8,7 +8,6 @@ class TweetsController < ApplicationController
 
     output = ''
     @tweets.each { |tweet| output += "#{tweet.inspect}\n" }
-
   end
 
   def show
